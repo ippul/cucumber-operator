@@ -1,0 +1,5 @@
+domain: ippul.org
+layout:
+- quarkus.javaoperatorsdk.io/v1-alpha
+projectName: cucumber-operator
+version: "3"

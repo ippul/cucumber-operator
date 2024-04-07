@@ -1,0 +1,54 @@
+<settings>
+  <localRepository>/home/ippul/.m2/repository</localRepository>
+  <mirrors>
+    <mirror>
+      <id>nexus</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://example-nexusrepo-sonatype-nexus-service-cucumber-operator.apps-crc.testing/repository/maven-public</url>
+    </mirror>
+  </mirrors>
+  <activeProfiles>
+    <activeProfile>nexus</activeProfile>
+  </activeProfiles>
+  <profiles>
+    <profile>
+      <id>nexus</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+  <pluginGroups>
+    <pluginGroup>org.sonatype.plugins</pluginGroup>
+  </pluginGroups>
+
+  <servers>
+    <server>
+      <id>nexus</id>
+      <username>admin</username>
+      <password>adc2d2dd-8619-4ea8-947a-1197f0514135</password>
+    </server>
+  </servers>
+</settings>

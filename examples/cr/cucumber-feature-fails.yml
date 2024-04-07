@@ -1,0 +1,64 @@
+apiVersion: ippul.org/v1alpha1
+kind: CucumberRun
+metadata:
+  name: cucumber-run-fails
+  namespace: cucumber-operator
+spec:
+  cucumberInstanceNameRef: cucumber-instance
+  mavenSettings: |
+    <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+    <settings>
+      <mirrors>
+        <mirror>
+          <id>nexus</id>
+          <mirrorOf>*</mirrorOf>
+          <url>http://example-nexusrepo-sonatype-nexus-service-cucumber-operator.apps-crc.testing/repository/maven-public</url>
+        </mirror>
+      </mirrors>
+      <profiles>
+        <profile>
+          <id>nexus</id>
+          <repositories>
+            <repository>
+              <id>central</id>
+              <url>http://central</url>
+              <releases>
+                <enabled>true</enabled>
+              </releases>
+              <snapshots>
+                <enabled>true</enabled>
+              </snapshots>
+            </repository>
+          </repositories>
+          <pluginRepositories>
+            <pluginRepository>
+              <id>central</id>
+              <url>http://central</url>
+              <releases>
+                <enabled>true</enabled>
+              </releases>
+              <snapshots>
+                <enabled>true</enabled>
+              </snapshots>
+            </pluginRepository>
+          </pluginRepositories>
+        </profile>
+      </profiles>
+      <activeProfiles>
+        <activeProfile>nexus</activeProfile>
+      </activeProfiles>
+    </settings>
+  stepJars:
+    - org.ippul:application-integration-tests:1.0.0
+  glues:
+    - org.ippul
+  featrues:
+
+    failing-scenario.feature: |
+      Feature: Example with a failing scenario
+        As a user I want to test application-services
+
+        Scenario: Test endpoint with wrong result
+          Given a user named 'Claudio'
+          When the service '/greetings' is invoked
+          Then the response is 'Hello Davide'

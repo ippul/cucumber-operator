@@ -1,0 +1,7 @@
+apiVersion: ippul.org/v1alpha1
+kind: CucumberInstance
+metadata:
+  name: cucumber-instance
+  namespace: cucumber-operator
+spec:
+  persistenceVolumeClaimName: cucumber-instance-pvc

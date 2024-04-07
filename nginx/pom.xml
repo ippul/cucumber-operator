@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.ippul</groupId>
+    <artifactId>cucumber-operator</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>nginx</artifactId>
+  <name>nginx</name>
+
+  <properties>
+    <compiler-plugin.version>3.11.0</compiler-plugin.version>
+    <maven.compiler.release>11</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <surefire-plugin.version>3.1.2</surefire-plugin.version>
+  </properties>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.jkube</groupId>
+        <artifactId>openshift-maven-plugin</artifactId>
+        <version>1.15.0</version>
+        <configuration>
+          <resources>
+            <namespace>${target.namespace.name}</namespace>
+          </resources>
+          <images>
+             <image>
+                <name>${target.namespace.name}/${project.artifactId}:${project.version}</name>
+                <build>
+                  <from>registry.redhat.io/rhel8/nginx-122:1-42</from>
+                  <filter>@</filter>
+                  <assembly>
+                    <excludeFinalOutputArtifact>true</excludeFinalOutputArtifact>
+                    <layers>
+                      <layer>
+                        <id>s2i-nginx-conf</id>
+                        <fileSets>
+                          <fileSet>
+                            <directory>${project.basedir}/src/main/docker/</directory>
+                            <outputDirectory>${project.basedir}/target/docker/cucumber-operator/${project.artifactId}/${project.version}/build/</outputDirectory>
+                            <includes>*</includes>
+                          </fileSet>
+                        </fileSets>
+                      </layer>
+                    </layers>
+                  </assembly>
+                </build>
+             </image>
+          </images>
+       </configuration>
+       <executions>
+         <execution>
+            <id>jkube</id>
+            <goals>
+              <goal>build</goal>
+            </goals>
+         </execution>
+       </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
